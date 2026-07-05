@@ -1,0 +1,20 @@
+name: Run Commands
+on:
+  workflow_dispatch:
+    inputs:
+      commands:
+        description: Commands
+        required: true
+
+jobs:
+  run-commands:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run commands
+        run: ${{ inputs.commands }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: output
+          path: ${{ runner.temp }}
