@@ -21,7 +21,7 @@ jobs:
           if [[ "$FILE" == *.zip ]]; then
             unzip -q "$FILE"
           elif [[ "$FILE" == *.apk ]]; then
-            zip -q -d "$FILE" "lib/armeabi-v7a/*" "lib/x86/*" "lib/x86_64/*" && zip -d "$FILE" "META-INF/*"
+            zip -q -d "$FILE" "lib/armeabi-v7a/*" "lib/x86/*" "lib/x86_64/*" && zip -q -d "$FILE" "META-INF/*"
           fi
 
           find . -type f -exec cksum -a sha256 {} +
