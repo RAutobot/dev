@@ -17,7 +17,10 @@ jobs:
 
       - name: Checksum
         run: |
-          unzip -q "$FILE" || true
+          if [[ "$FILE" == *.zip ]]; then
+            unzip -q "$FILE"
+          fi
+
           find . -type f -exec cksum -a sha256 {} +
 
       - name: Upload artifact
