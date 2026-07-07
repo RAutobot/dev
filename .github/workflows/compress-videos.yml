@@ -36,7 +36,7 @@ jobs:
       - name: Compress video
         run: |
           ./*/bin/ffmpeg \
-            -hide_banner \
+            -nostats \
             -i "$INPUT_FILE" \
             -c:v libx265 \
             -crf 30 \
