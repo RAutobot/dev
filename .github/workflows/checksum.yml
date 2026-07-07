@@ -6,7 +6,6 @@ on:
         description: Cookies
       file-url:
         description: File URL
-        default: https://github.com/MojoLauncher/MojoLauncher/releases/download/nightly/MojoLauncher-release.apk
         required: true
 
 jobs:
