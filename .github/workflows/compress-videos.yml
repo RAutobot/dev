@@ -1,5 +1,5 @@
 name: Compress Videos
-run-name: Compress Videos (${{ inputs.video-scale }}, ${{ inputs.video-audio && 'Audio' || 'No Audio' }})
+run-name: Compress Videos (${{ inputs.video-scale }})
 on:
   workflow_dispatch:
     inputs:
@@ -12,10 +12,6 @@ on:
         description: Video scale
         type: choice
         options: [1080, 720, 480, 360, 240, 144]
-      video-audio:
-        description: Video audio
-        default: true
-        type: boolean
 
 jobs:
   compress-videos:
@@ -42,7 +38,7 @@ jobs:
             -crf 30 \
             -pix_fmt yuv420p10le \
             -vf "scale='if(gt(iw, ih), -2, min(iw, ${{ inputs.video-scale }}))':'if(gt(iw, ih), min(ih, ${{ inputs.video-scale }}), -2)'" \
-            ${{ inputs.video-audio && '-c:a libopus' || '-an' }} \
+            ${{ inputs.video-scale == '144' && '-an' || '-c:a libopus' }} \
             "$OUTPUT_FILE"
 
       - name: Upload artifact
