@@ -12,7 +12,7 @@ jobs:
   checksum:
     runs-on: ubuntu-latest
     steps:
-      - name: Download file:
+      - name: Download file
         run: printf "%s\n" "FILENAME=$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ inputs.file-url }}")" >> "$GITHUB_ENV"
 
       - name: Checksum
