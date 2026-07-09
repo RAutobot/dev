@@ -12,12 +12,13 @@ jobs:
   checksum:
     runs-on: ubuntu-latest
     steps:
+      - name: Download file:
+        run: printf "%s\n" "FILENAME=$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ inputs.file-url }}")" >> "$GITHUB_ENV"
+
       - name: Checksum
         run: |
-          filename="$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ inputs.file-url }}")"
-
-          if [[ "$filename" == *.zip ]]; then
-            unzip -q "$filename"
+          if [[ "$FILENAME" == *.zip ]]; then
+            unzip -q "$FILENAME"
           fi
 
           find . -type f -exec cksum -a sha256 {} +
