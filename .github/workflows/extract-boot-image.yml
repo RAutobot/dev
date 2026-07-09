@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Run
+      - name: Extract boot image
         run: curl -sSL "${{ inputs.fastboot-rom-url }}" | tar -xz -f - --occurrence --wildcards "*/images/boot.img"
 
       - name: Release
