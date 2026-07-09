@@ -21,7 +21,7 @@ jobs:
         video-url: ${{ fromJson(inputs.video-urls) }}
       fail-fast: false
     steps:
-      - name: Set up FFmpeg
+      - name: Download FFmpeg
         run: curl -sSL "https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz" | tar -xJ -f - --occurrence --wildcards "*/bin/ffmpeg"
 
       - name: Download video
