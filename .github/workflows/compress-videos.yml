@@ -27,25 +27,25 @@ jobs:
       - name: Download video
         run: |
           filename="$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ matrix.video-url }}")"
-          printf "%s\n" "INPUT_FILE=$filename" "OUTPUT_FILE=${filename%.*}.mkv" >> "$GITHUB_ENV"
+          printf "%s\n" "INPUT_FILENAME=$filename" "OUTPUT_FILENAME=${filename%.*}.mkv" >> "$GITHUB_ENV"
 
       - name: Compress video
         run: |
           ./*/bin/ffmpeg \
             -nostats \
-            -i "$INPUT_FILE" \
+            -i "$INPUT_FILENAME" \
             -c:v libx265 \
             -crf 30 \
             -pix_fmt yuv420p10le \
             -vf "scale='if(gt(iw, ih), -2, min(iw, ${{ inputs.video-scale }}))':'if(gt(iw, ih), min(ih, ${{ inputs.video-scale }}), -2)'" \
             ${{ inputs.video-scale == '144' && '-an' || '-c:a libopus' }} \
-            "$OUTPUT_FILE"
+            "$OUTPUT_FILENAME"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7
         with:
           archive: false
-          path: ${{ env.OUTPUT_FILE }}
+          path: ${{ env.OUTPUT_FILENAME }}
 
   merge-artifacts:
     needs: compress-videos
@@ -54,4 +54,4 @@ jobs:
       - name: Merge artifacts
         uses: actions/upload-artifact/merge@v7
         with:
-          name: "!${{ github.run_id }}"
+          name: "!${{ github.run_number }}"
