@@ -10,7 +10,6 @@ on:
         required: true
       video-scale:
         description: Video scale
-        default: "144"
         options: [1080, 720, 480, 360, 240, 144]
         type: choice
 
