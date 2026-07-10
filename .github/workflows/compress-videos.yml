@@ -3,8 +3,8 @@ run-name: Compress Videos (${{ inputs.video-scale }})
 on:
   workflow_dispatch:
     inputs:
-      headers:
-        description: Headers
+      cookies:
+        description: Cookies
       video-urls:
         description: JSON array of video URL
         default: '["URL_HERE"]'
@@ -27,7 +27,7 @@ jobs:
 
       - name: Download video
         run: |
-          filename="$(curl -sSLOJ -w "%{filename_effective}" ${{ inputs.headers }} "${{ matrix.video-url }}")"
+          filename="$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ matrix.video-url }}")"
           printf "%s\n" "INPUT_FILENAME=$filename" "OUTPUT_FILENAME=${filename%.*}.mkv" >> "$GITHUB_ENV"
 
       - name: Compress video
