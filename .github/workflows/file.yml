@@ -1,4 +1,4 @@
-name: Checksum
+name: File
 on:
   workflow_dispatch:
     inputs:
@@ -9,16 +9,18 @@ on:
         required: true
 
 jobs:
-  checksum:
+  file:
     runs-on: ubuntu-latest
     steps:
       - name: Download file
         run: printf "%s\n" "FILENAME=$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ inputs.file-url }}")" >> "$GITHUB_ENV"
 
-      - name: Checksum
+      - name: File
         run: |
           if [[ "$FILENAME" == *.zip ]]; then
             unzip -q "$FILENAME"
+          elif [[ "$FILENAME" == *.apk ]]; then
+            zip -q -d "lib/armeabi-v7a/*" "lib/x86/*" "lib/x86_64/*" && zip -q -d "META-INF/*"
           fi
 
           find . -type f -exec cksum -a sha256 {} +
