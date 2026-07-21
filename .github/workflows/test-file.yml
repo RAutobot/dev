@@ -1,4 +1,4 @@
-name: File
+name: Test File
 on:
   workflow_dispatch:
     inputs:
@@ -9,13 +9,13 @@ on:
         required: true
 
 jobs:
-  file:
+  test-file:
     runs-on: ubuntu-latest
     steps:
       - name: Download file
         run: printf "%s\n" "FILENAME=$(curl -sSLOJ -w "%{filename_effective}" -b "${{ inputs.cookies }}" "${{ inputs.file-url }}")" >> "$GITHUB_ENV"
 
-      - name: File
+      - name: Test file
         run: |
           7z x "$FILENAME" || true
           find . -type f -exec cksum -a sha256 {} +
